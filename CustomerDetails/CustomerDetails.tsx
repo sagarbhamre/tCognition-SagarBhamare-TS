@@ -87,16 +87,6 @@ const CustomerDetails = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={4}>
-                <Field
-                  component={TextField}
-                  type="alttelephone"
-                  label="Alt Telephone"
-                  name="alttelephone"
-                  fullWidth
-                />
-              </Grid>
-
               <Grid item xs={4} sm={4}>
                 <Field
                   component={TextField}
