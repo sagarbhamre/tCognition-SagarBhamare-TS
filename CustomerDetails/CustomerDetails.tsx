@@ -1,16 +1,56 @@
 // Render Prop
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Field, Form, FormikHelpers } from 'formik';
 import { Button, Grid, LinearProgress } from '@mui/material';
 import { TextField } from 'formik-mui';
+import { createServer } from 'miragejs';
 import './CustomerDetails.css';
 
 interface Values {
+  customername: string;
   email: string;
   password: string;
 }
 
+interface Customer {
+  id: string;
+  customername: string;
+  address: string;
+  telephone: string;
+  dob: string;
+  AltTelephone: string;
+  email: string;
+}
+
+/* create a mock server response using miragejs*/
+createServer({
+  routes() {
+    this.get('/api/customers/id=1', () => [
+      {
+        id: '1',
+        customername: 'Luke',
+        address: '123 Fake Street, Preston Lancashire PR2 5YB',
+        telephone: '01772111145',
+        dob: '14/05/1985',
+        AltTelephone: '01772111145',
+        email: 'fraser.iomas@esgglobal.com',
+      },
+    ]);
+  },
+});
+
 const CustomerDetails = () => {
+  const [customer, setCustomer] = useState([]);
+
+  useEffect(() => {
+    // api fetch data from REST API backend
+    fetch('/api/customers/id=1')
+      .then((response) => response.json())
+      // set mock api data to customers state
+      .then((json) => setCustomer(json));
+  }, []);
+
   return (
     <div>
       <h1 className="page-heading">Customer Details</h1>
@@ -24,6 +64,7 @@ const CustomerDetails = () => {
 
       <Formik
         initialValues={{
+          customername: '',
           email: '',
           password: '',
         }}
@@ -47,72 +88,79 @@ const CustomerDetails = () => {
       >
         {({ submitForm, isSubmitting }) => (
           <Form>
-            <Grid container spacing={2}>
-              <Grid item xs={4} sm={4}>
-                <Field
-                  component={TextField}
-                  name="customername"
-                  type="customername"
-                  label="Customer Name"
-                  fullWidth
-                />
-              </Grid>
+            {customer.map((customer) => (
+              <Grid container spacing={2}>
+                <Grid item xs={4} sm={4}>
+                  <Field
+                    component={TextField}
+                    name="customername"
+                    type="customername"
+                    label="Customer Name"
+                    value={customer.customername}
+                    fullWidth
+                  />
+                </Grid>
 
-              <Grid item xs={12} sm={4}>
-                <Field
-                  component={TextField}
-                  type="telephone"
-                  label="Telephone"
-                  name="telephone"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4} sm={4}>
-                <Field
-                  component={TextField}
-                  type="dob"
-                  label="Date of Birth"
-                  name="dob"
-                  fullWidth
-                />
-              </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Field
+                    component={TextField}
+                    type="telephone"
+                    label="Telephone"
+                    name="telephone"
+                    value={customer.customername}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4} sm={4}>
+                  <Field
+                    component={TextField}
+                    type="dob"
+                    label="Date of Birth"
+                    name="dob"
+                    value={customer.customername}
+                    fullWidth
+                  />
+                </Grid>
 
-              <Grid item xs={12} sm={4}>
-                <Field
-                  component={TextField}
-                  type="alttelephone"
-                  label="Alt Telephone"
-                  name="alttelephone"
-                  fullWidth
-                />
-              </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Field
+                    component={TextField}
+                    type="alttelephone"
+                    label="Alt Telephone"
+                    name="alttelephone"
+                    value={customer.customername}
+                    fullWidth
+                  />
+                </Grid>
 
-              <Grid item xs={4} sm={4}>
-                <Field
-                  component={TextField}
-                  name="email"
-                  type="email"
-                  label="Email"
-                  fullWidth
-                />
-              </Grid>
+                <Grid item xs={4} sm={4}>
+                  <Field
+                    component={TextField}
+                    name="email"
+                    type="email"
+                    label="Email"
+                    value={customer.customername}
+                    fullWidth
+                  />
+                </Grid>
 
-              <Grid item xs={4} sm={4}>
-                <Field
-                  component={TextField}
-                  multiline
-                  rows={2}
-                  type="address"
-                  label="Address"
-                  name="address"
-                  placeholder="Address"
-                  fullWidth
-                />
-              </Grid>
+                <Grid item xs={4} sm={4}>
+                  <Field
+                    component={TextField}
+                    multiline
+                    rows={2}
+                    type="address"
+                    label="Address"
+                    name="address"
+                    placeholder="Address"
+                    value={customer.customername}
+                    fullWidth
+                  />
+                </Grid>
 
-              {isSubmitting && <LinearProgress />}
+                {isSubmitting && <LinearProgress />}
 
-              {/* <Button
+                {/* <Button
               variant="contained"
               color="primary"
               disabled={isSubmitting}
@@ -120,7 +168,8 @@ const CustomerDetails = () => {
             >
               Submit
             </Button> */}
-            </Grid>
+              </Grid>
+            ))}
           </Form>
         )}
       </Formik>
