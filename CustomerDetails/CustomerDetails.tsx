@@ -8,9 +8,13 @@ import { createServer } from 'miragejs';
 import './CustomerDetails.css';
 
 interface Values {
+  id: string;
   customername: string;
+  address: string;
+  telephone: string;
+  dob: string;
+  alttelephone: string;
   email: string;
-  password: string;
 }
 
 interface Customer {
@@ -64,14 +68,29 @@ const CustomerDetails = () => {
 
       <Formik
         initialValues={{
-          customername: '',
-          email: '',
-          password: '',
+          customername: 'Luke',
+          address: '123 Fake Street, Preston Lancashire PR2 5YB',
+          telephone: '01772111145',
+          dob: '14/05/1985',
+          alttelephone: '01772111145',
+          email: 'fraser.iomas@esgglobal.com',
         }}
         validate={(values) => {
           const errors: Partial<Values> = {};
+          if (!values.customername) {
+            errors.customername = 'Customer Name is Required';
+          }
+          if (!values.telephone) {
+            errors.telephone = 'Customer Name is Required';
+          }
+          if (!values.customername) {
+            errors.customername = 'Customer Name is Required';
+          }
+          if (!values.customername) {
+            errors.customername = 'Customer Name is Required';
+          }
           if (!values.email) {
-            errors.email = 'Required';
+            errors.email = 'Email is Required';
           } else if (
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
           ) {
@@ -107,7 +126,7 @@ const CustomerDetails = () => {
                     type="telephone"
                     label="Telephone"
                     name="telephone"
-                    value={customer.customername}
+                    value={customer.telephone}
                     fullWidth
                   />
                 </Grid>
@@ -117,7 +136,7 @@ const CustomerDetails = () => {
                     type="dob"
                     label="Date of Birth"
                     name="dob"
-                    value={customer.customername}
+                    value={customer.dob}
                     fullWidth
                   />
                 </Grid>
@@ -126,9 +145,9 @@ const CustomerDetails = () => {
                   <Field
                     component={TextField}
                     type="alttelephone"
-                    label="Alt Telephone"
+                    label="Alternate Telephone"
                     name="alttelephone"
-                    value={customer.customername}
+                    value={customer.alttelephone}
                     fullWidth
                   />
                 </Grid>
@@ -139,7 +158,7 @@ const CustomerDetails = () => {
                     name="email"
                     type="email"
                     label="Email"
-                    value={customer.customername}
+                    value={customer.email}
                     fullWidth
                   />
                 </Grid>
@@ -153,21 +172,23 @@ const CustomerDetails = () => {
                     label="Address"
                     name="address"
                     placeholder="Address"
-                    value={customer.customername}
+                    value={customer.address}
                     fullWidth
                   />
                 </Grid>
 
                 {isSubmitting && <LinearProgress />}
 
-                {/* <Button
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              Submit
-            </Button> */}
+                <Grid item xs={4} sm={4}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={isSubmitting}
+                    onClick={submitForm}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
             ))}
           </Form>
