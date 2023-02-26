@@ -27,7 +27,7 @@ createServer({
         address: '123 Fake Street, Preston Lancashire PR2 5YB',
         telephone: '01772111145',
         dob: '14/05/1985',
-        AltTelephone: '01772111145',
+        alttelephone: '01772111145',
         email: 'fraser.iomas@esgglobal.com',
       },
     ]);
