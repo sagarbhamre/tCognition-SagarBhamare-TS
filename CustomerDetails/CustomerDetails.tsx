@@ -17,16 +17,6 @@ interface Values {
   email: string;
 }
 
-interface Customer {
-  id: string;
-  customername: string;
-  address: string;
-  telephone: string;
-  dob: string;
-  AltTelephone: string;
-  email: string;
-}
-
 /* create a mock server response using miragejs*/
 createServer({
   routes() {
